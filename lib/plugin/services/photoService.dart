@@ -13,12 +13,11 @@ class ServiceDod{
 
 
 ///POSTS
-    @override
   Future postPhoto({Map data}) async {
       ResponseModel response;
       try {
         await _dio.post(
-          "/test-app/",
+          "/users/recognizes",
           data: data,
            onSendProgress: (int sent, int total){
           sendProgress.sink.add(sent/total);
@@ -31,7 +30,7 @@ class ServiceDod{
           response = ResponseModel(
               error: false,
               msgError: "",
-              data: Dod.fromJson(value.data),
+              data: value.data,
               statusCode: value.statusCode
           );
 

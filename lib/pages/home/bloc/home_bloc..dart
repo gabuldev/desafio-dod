@@ -15,7 +15,7 @@ class BlocHome{
   ControllerDod controller;
 
   //! STREAMS
-  var response = BehaviorSubject<ResponseModel>();
+  var response = BehaviorSubject<List<Dod>>();
   var imagePath = BehaviorSubject<File>();
   var animationButton = BehaviorSubject<bool>();
 
@@ -28,9 +28,14 @@ class BlocHome{
     void sendPhoto()async{
       ResponseModel res;
       if(imagePath.value != null){
-
+          response.sink.add(null);
+          try{
           res = await controller.postPhoto(image: imagePath.value);
-          response.sink.add(res);
+          List<Dod> list = (res.data as List).map((i) => Dod.fromJson(i)).toList();
+          response.sink.add(list);
+          }catch(e){
+            response.addError(e);
+          }
 
       }
 
